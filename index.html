@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GLORY ORG — OSINT Research Dashboard</title>
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+<div class="app">
+<aside class="sidebar" id="sidebar">
+<div class="brand"><div class="logo">G</div><div><h1>GLORY ORG</h1><p class="made-by">made by glory org</p></div></div>
+<nav>
+<button class="nav-btn active" data-view="dashboard">Dashboard</button>
+<button class="nav-btn" data-view="search">Search &amp; Research</button>
+<button class="nav-btn" data-view="network">Network &amp; Domain</button>
+<button class="nav-btn" data-view="identifiers">Identifiers</button>
+<button class="nav-btn" data-view="people">People &amp; Address</button>
+<button class="nav-btn" data-view="cases">Cases</button>
+<button class="nav-btn" data-view="notes">Notes &amp; Evidence</button>
+<button class="nav-btn" data-view="files">File Hashing</button>
+<button class="nav-btn" data-view="history">History</button>
+<button class="nav-btn" data-view="about">About &amp; Legal</button>
+</nav>
+<div class="sidebar-footer"><span class="status-dot"></span> Local-first</div>
+</aside>
+<main class="main">
+<header class="topbar"><button id="menuBtn" class="icon-btn">☰</button><input id="globalSearch" placeholder="Search…"><button id="newCaseBtn" class="btn primary">+ New case</button></header>
+<section id="view-dashboard" class="view active">
+<div class="page-head"><h2>Research Dashboard</h2><p>Lawful OSINT research workspace.</p></div>
+<div class="stats-grid" id="statsGrid"></div>
+<div class="grid-2"><div class="card"><h3>Quick tools</h3><div class="quick-tools" id="quickTools"></div></div><div class="card"><h3>Recent activity</h3><ul class="activity-list" id="recentActivity"></ul></div></div>
+<div class="card"><h3>Saved cases</h3><div id="dashboardCases" class="case-grid"></div></div>
+</section>
+<section id="view-search" class="view">
+<div class="page-head"><h2>Search &amp; Research</h2></div>
+<div class="grid-2">
+<div class="card tool-card" data-tool="dorks"><h3>Google Dorks generator</h3><input id="dorkTerm" placeholder="Keyword"><div class="row"><select id="dorkOperator"><option value="">No operator</option><option value="site:">site:</option><option value="filetype:">filetype:</option><option value="intitle:">intitle:</option><option value="inurl:">inurl:</option></select><input id="dorkValue" placeholder="Value"></div><div class="row"><button class="btn" data-action="add-dork">Add</button><button class="btn primary" data-action="run-dork">Search</button></div><code id="dorkPreview" class="preview"></code></div>
+<div class="card tool-card" data-tool="web-search"><h3>Public web search</h3><input id="webQuery" placeholder="Query"><div class="row"><select id="webEngine"><option value="https://duckduckgo.com/?q=">DuckDuckGo</option><option value="https://www.google.com/search?q=">Google</option><option value="https://www.bing.com/search?q=">Bing</option></select><button class="btn primary" data-action="web-search">Search</button></div></div>
+<div class="card tool-card" data-tool="username"><h3>Username lookup</h3><input id="usernameInput" placeholder="Username"><button class="btn primary" data-action="username-lookup">Check</button><div id="usernameResults" class="link-grid"></div></div>
+<div class="card tool-card" data-tool="wayback"><h3>Wayback Machine</h3><input id="waybackUrl" placeholder="https://example.com"><div class="row"><button class="btn primary" data-action="wayback-lookup">Find</button><button class="btn" data-action="wayback-open">Open</button></div><div id="waybackResult" class="result"></div></div>
+<div class="card tool-card" data-tool="social"><h3>Social search</h3><input id="socialQuery" placeholder="Query"><button class="btn primary" data-action="social-search">Open</button><div id="socialResults" class="link-grid"></div></div>
+</div>
+</section>
+<section id="view-network" class="view">
+<div class="page-head"><h2>Network &amp; Domain</h2></div>
+<div class="grid-2">
+<div class="card tool-card" data-tool="ip"><h3>IP lookup</h3><input id="ipInput" placeholder="IP"><button class="btn primary" data-action="ip-lookup">Lookup</button><div id="ipResult" class="result"></div></div>
+<div class="card tool-card" data-tool="dns"><h3>DNS lookup</h3><input id="dnsDomain" placeholder="example.com"><div class="row"><select id="dnsType"><option>A</option><option>AAAA</option><option>MX</option><option>NS</option><option>TXT</option></select><button class="btn primary" data-action="dns-lookup">Resolve</button></div><div id="dnsResult" class="result"></div></div>
+<div class="card tool-card" data-tool="domain"><h3>Domain lookup</h3><input id="domainInput" placeholder="example.com"><button class="btn primary" data-action="domain-lookup">Lookup</button><div id="domainResult" class="result"></div></div>
+<div class="card tool-card" data-tool="asn"><h3>ASN lookup</h3><input id="asnInput" placeholder="AS15169"><button class="btn primary" data-action="asn-lookup">Lookup</button><div id="asnResult" class="result"></div></div>
+<div class="card tool-card" data-tool="crt"><h3>Certificate transparency</h3><input id="crtDomain" placeholder="example.com"><button class="btn primary" data-action="crt-lookup">Search</button><div id="crtResult" class="result"></div></div>
+<div class="card tool-card" data-tool="metadata"><h3>Website metadata</h3><input id="metaUrl" placeholder="https://example.com"><button class="btn primary" data-action="metadata-lookup">Get</button><div id="metaResult" class="result"></div></div>
+</div>
+</section>
+<section id="view-identifiers" class="view">
+<div class="page-head"><h2>Identifiers</h2></div>
+<div class="grid-2">
+<div class="card tool-card" data-tool="discord"><h3>Discord ID</h3><input id="discordId" placeholder="ID"><button class="btn primary" data-action="discord-lookup">Lookup</button><div id="discordResult" class="result"></div></div>
+<div class="card tool-card" data-tool="telegram"><h3>Telegram</h3><input id="telegramUser" placeholder="username"><button class="btn primary" data-action="telegram-lookup">Open</button><div id="telegramResult" class="result"></div></div>
+<div class="card tool-card" data-tool="email"><h3>Email validation</h3><input id="emailInput" placeholder="email@example.com"><button class="btn primary" data-action="email-validate">Validate</button><div id="emailResult" class="result"></div></div>
+<div class="card tool-card" data-tool="phone"><h3>Phone validation</h3><input id="phoneInput" placeholder="+62..."><button class="btn primary" data-action="phone-validate">Validate</button><div id="phoneResult" class="result"></div></div>
+</div>
+</section>
+<section id="view-people" class="view">
+<div class="page-head"><h2>People &amp; Address</h2><p>Lawful public-record helpers only.</p></div>
+<div class="grid-2">
+<div class="card tool-card"><h3>Address formatter</h3><input id="addressLine" placeholder="Street"><div class="row"><input id="addressCity" placeholder="City"><input id="addressPostal" placeholder="Postal code"></div><div class="row"><select id="addressCountry"><option value="US">US</option><option value="ID">Indonesia</option><option value="GB">UK</option><option value="CA">Canada</option><option value="AU">Australia</option></select><button class="btn primary" data-action="address-validate">Validate</button></div><div id="addressResult" class="result"></div></div>
+<div class="card tool-card"><h3>Public name research</h3><input id="nameFull" placeholder="Full name"><div class="row"><input id="nameLocation" placeholder="Location"><button class="btn primary" data-action="name-search">Search</button></div><div id="nameResult" class="result"></div></div>
+</div>
+</section>
+<section id="view-cases" class="view"><div class="page-head"><h2>Cases</h2></div><div class="card"><div class="row"><input id="caseTitle" placeholder="Case title"><input id="caseTags" placeholder="Tags"><button class="btn primary" data-action="create-case">Create</button></div></div><div id="caseList" class="case-grid"></div></section>
+<section id="view-notes" class="view"><div class="page-head"><h2>Notes &amp; Evidence</h2></div><div class="card"><div class="row"><select id="noteCase"></select><input id="noteTitle" placeholder="Title"></div><textarea id="noteBody" rows="5" placeholder="Finding"></textarea><input id="noteSource" placeholder="Source URL"><div class="row"><button class="btn primary" data-action="add-note">Add</button><button class="btn" data-action="export-report">Export</button></div></div><div id="notesList" class="notes-list"></div></section>
+<section id="view-files" class="view"><div class="page-head"><h2>File Hashing</h2></div><div class="card"><input type="file" id="hashFile" multiple><button class="btn primary" data-action="hash-files">SHA-256</button><div id="hashResults" class="result"></div></div></section>
+<section id="view-history" class="view"><div class="page-head"><h2>History</h2></div><div class="grid-2"><div class="card"><h3>Recent</h3><ul class="activity-list" id="historyList"></ul><button class="btn danger" data-action="clear-history">Clear</button></div><div class="card"><h3>Saved searches</h3><div class="row"><input id="savedSearchName" placeholder="Name"><input id="savedSearchUrl" placeholder="URL"><button class="btn primary" data-action="save-search">Save</button></div><div id="savedSearches" class="link-grid"></div></div></div></section>
+<section id="view-about" class="view"><div class="page-head"><h2>About</h2></div><div class="card"><h3>GLORY ORG</h3><p>Local-first research dashboard. No API keys required.</p></div></section>
+</main></div><div id="toast" class="toast"></div>
+<script src="assets/js/utils.js"></script><script src="assets/js/api.js"></script><script src="assets/js/cases.js"></script><script src="assets/js/tools.js"></script><script src="assets/js/app.js"></script>
+</body></html>
